@@ -1,0 +1,19 @@
+backend:
+  name: github
+  repo: NAMA_GITHUB_USER/NAMA_REPOSITORY # Contoh: aminzahin/peaceful-planet
+  branch: main # Atau master, ikut branch utama anda
+
+media_folder: "public/images"
+public_folder: "/images"
+
+collections:
+  - name: "blog"
+    label: "Blog Posts"
+    folder: "src/content/blog"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Description", name: "description", widget: "string" }
+      - { label: "Publish Date", name: "pubDate", widget: "datetime" }
+      - { label: "Body", name: "body", widget: "markdown" }
