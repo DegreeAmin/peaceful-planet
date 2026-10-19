@@ -1,7 +1,12 @@
 backend:
   name: github
-  repo: NAMA_GITHUB_USER/NAMA_REPOSITORY # Contoh: aminzahin/peaceful-planet
-  branch: main # Atau master, ikut branch utama anda
+  repo: DegreeAmin/peaceful-planet
+  branch: main
+  base_url: https://sveltia-cms-auth.sveltia.dev
+  auth_endpoint: /auth
+
+# Boleh kekalkan local_backend untuk ujian tempatan
+local_backend: true
 
 media_folder: "public/images"
 public_folder: "/images"
