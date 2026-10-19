@@ -1,0 +1,31 @@
+---
+import { getCollection, render, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    // Buang ekstensi fail (.md / .mdx) supaya URL menjadi /blog/post-1
+    params: { slug: post.id.replace(/\.mdx?$/, '') },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<BaseLayout title={post.data.title} description={post.data.description}>
+  <article class="prose prose-slate max-w-none">
+    <header class="mb-8">
+      <FormattedDate date={post.data.pubDate} />
+      <h1 class="text-3xl font-extrabold text-slate-900 mt-2">{post.data.title}</h1>
+    </header>
+    <Content />
+  </article>
+</BaseLayout>

@@ -1,0 +1,33 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import FormattedDate from '../../components/FormattedDate.astro';
+
+// Ambil semua artikel dan susun mengikut tarikh terkini
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+
+<BaseLayout title="Blog | Peaceful Planet" description="Semua artikel dan panduan gaya hidup mampan.">
+  <section class="max-w-4xl mx-auto px-4 py-8">
+    <h1 class="text-3xl font-extrabold text-slate-900 mb-8">Semua Artikel</h1>
+    
+    <div class="grid gap-6 sm:grid-cols-2">
+      {posts.map((post) => {
+        // Buang ekstensi fail (.md) supaya pautan URL bersih (/blog/post-1)
+        const cleanSlug = post.id.replace(/\.mdx?$/, '');
+        return (
+          <a 
+            href={`/blog/${cleanSlug}`} 
+            class="block p-6 bg-white border border-slate-200 rounded-xl hover:border-emerald-500 transition shadow-sm"
+          >
+            <FormattedDate date={post.data.pubDate} />
+            <h2 class="text-xl font-semibold mt-2 text-slate-800">{post.data.title}</h2>
+            <p class="mt-2 text-slate-600 text-sm">{post.data.description}</p>
+          </a>
+        );
+      })}
+    </div>
+  </section>
+</BaseLayout>
